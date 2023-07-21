@@ -19,12 +19,11 @@ public class ProductJdbcRepository implements ProductRepository {
         UUID productId = toUUID(resultSet.getBytes("product_id"));
         String productName = resultSet.getString("product_name");
         Category category = Category.valueOf(resultSet.getString("category"));
-        int stock = resultSet.getInt("stock");
         long price = resultSet.getLong("price");
         String description = resultSet.getString("description");
         LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
         LocalDateTime updatedAt = toLocalDateTime(resultSet.getTimestamp("updated_at"));
-        return new Product(productId, productName, category, price, stock, description, createdAt, updatedAt);
+        return new Product(productId, productName, category, price, description, createdAt, updatedAt);
     };
 
     private Map<String, Object> toParamMap(Product product) {
@@ -33,7 +32,6 @@ public class ProductJdbcRepository implements ProductRepository {
                 "productName", product.getProductName(),
                 "category", product.getCategory().toString(),
                 "price", product.getPrice(),
-                "stock", product.getStock(),
                 "description", product.getDescription(),
                 "createdAt", product.getCreatedAt(),
                 "updatedAt", product.getUpdatedAt()

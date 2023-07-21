@@ -14,40 +14,26 @@ public class Product {
     private Category category;
     @NotNull
     private long price;
-    @NotNull
-    private int stock;
     private String description;
     @NotNull
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Product(String productName, Category category, long price, int stock, String description) {
+    public Product(String productName, Category category, long price, String description) {
         this.productId = UUID.randomUUID();
         this.productName = productName;
         this.category = category;
         this.price = price;
-        this.stock = stock;
         this.description = description;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Product(UUID productId, String productName, Category category, long price, int stock) {
+    public Product(UUID productId, String productName, Category category, long price, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.productId = productId;
         this.productName = productName;
         this.category = category;
         this.price = price;
-        this.stock = stock;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public Product(UUID productId, String productName, Category category, long price, int stock, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.productId = productId;
-        this.productName = productName;
-        this.category = category;
-        this.price = price;
-        this.stock = stock;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -67,10 +53,6 @@ public class Product {
 
     public long getPrice() {
         return price;
-    }
-
-    public int getStock() {
-        return stock;
     }
 
     public String getDescription() {

@@ -34,7 +34,6 @@ public class ProductService {
                 productCreateRequest.getProductName(),
                 productCreateRequest.getCategory(),
                 productCreateRequest.getPrice(),
-                productCreateRequest.getStock(),
                 productCreateRequest.getDescription()
         );
     }

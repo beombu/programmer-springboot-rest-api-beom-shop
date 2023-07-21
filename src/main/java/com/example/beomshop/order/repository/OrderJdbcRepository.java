@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.example.beomshop.util.JdbcUtil.uuidToBytes;
@@ -23,7 +22,7 @@ public class OrderJdbcRepository implements OrderRepository{
 
     private Map<String, Object> toOrderParamMap(Order order) {
         HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("orderId", order.getOrderId().toString().getBytes());
+        paramMap.put("orderId", uuidToBytes(order.getOrderId()));
         paramMap.put("orderStatus", order.getOrderStatus().toString());
         paramMap.put("createdAt", order.getCreatedAt());
         paramMap.put("updatedAt", order.getUpdatedAt());
@@ -33,10 +32,10 @@ public class OrderJdbcRepository implements OrderRepository{
     private Map<String, Object> toOrderItemParamMap(UUID orderId, LocalDateTime createdAt, LocalDateTime updatedAt, OrderItem item) {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("orderId", uuidToBytes(orderId));
-        paramMap.put("productId", uuidToBytes(item.getProductId()));
-        paramMap.put("category", item.getCategory().toString());
-        paramMap.put("price", item.getPrice());
-        paramMap.put("quantity", item.getQuantity());
+        paramMap.put("productId", uuidToBytes(item.productId()));
+        paramMap.put("category", item.category().toString());
+        paramMap.put("price", item.price());
+        paramMap.put("quantity", item.quantity());
         paramMap.put("createdAt", createdAt);
         paramMap.put("updatedAt", updatedAt);
         return paramMap;
@@ -53,10 +52,5 @@ public class OrderJdbcRepository implements OrderRepository{
                                         "VALUES (UUID_TO_BIN(:orderId), UUID_TO_BIN(:productId), :category, :price, :quantity, :createdAt, :updatedAt)",
                                 toOrderItemParamMap(order.getOrderId(), order.getCreatedAt(), order.getUpdatedAt(), item)));
         return order;
-    }
-
-    @Override
-    public Optional<Order> findById(Integer orderId) {
-        return Optional.empty();
     }
 }
