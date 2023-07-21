@@ -56,4 +56,8 @@ public class ProductService {
     public List<Product> findByCategory(Category category) {
         return productRepository.findByCategory(category);
     }
+
+    public void deleteById(UUID productId) {
+        productRepository.deleteById(productId);
+    }
 }

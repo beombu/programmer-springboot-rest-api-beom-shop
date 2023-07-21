@@ -5,7 +5,9 @@ import com.example.beomshop.product.domain.Product;
 import com.example.beomshop.product.dto.ProductCreateRequest;
 import com.example.beomshop.product.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,31 +32,44 @@ public class ProductRestController {
     @PostMapping("/new")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductCreateRequest productCreateRequest) {
         Product saved = productService.save(productCreateRequest);
+
         return ResponseEntity.ok(saved);
     }
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> findAllProduct() {
         List<Product> products = productService.findAll();
+
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{productId}")
     public ResponseEntity<Product> findById(@PathVariable UUID productId) {
         Product product = productService.findById(productId);
+
         return ResponseEntity.ok(product);
     }
 
     @GetMapping("/{productName}")
     public ResponseEntity<Product> findById(@PathVariable String productName) {
         Product product = productService.findByName(productName);
+
         return ResponseEntity.ok(product);
     }
 
     @GetMapping("/products")
-    public List<Product> productList(@RequestParam Optional<Category> category) {
-      return category
-        .map(productService::findByCategory)
-        .orElse(productService.findAll());
+    public ResponseEntity<List<Product>> productList(@RequestParam Optional<Category> category) {
+        List<Product> products = category
+                .map(productService::findByCategory)
+                .orElse(productService.findAll());
+
+        return ResponseEntity.ok(products);
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity deleteById(@PathVariable UUID productId) {
+        productService.deleteById(productId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -87,6 +87,7 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public void deleteById(UUID productId) {
-
+        jdbcTemplate.update(
+                        "DELETE FROM products WHERE product_id = :product_id;", Collections.singletonMap("product_id", productId));
     }
 }
