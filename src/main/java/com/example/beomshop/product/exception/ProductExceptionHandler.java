@@ -13,4 +13,10 @@ public class ProductExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(productIdNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
+
+    @ExceptionHandler(ProductNameNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProductNameNotFoundException(ProductNameNotFoundException productNameNotFoundException) {
+        ErrorResponse errorResponse = new ErrorResponse(productNameNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
 }

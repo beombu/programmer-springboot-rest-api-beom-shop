@@ -1,15 +1,18 @@
 package com.example.beomshop.product.service;
 
 import com.example.beomshop.product.Repository.ProductRepository;
+import com.example.beomshop.product.domain.Category;
 import com.example.beomshop.product.domain.Product;
 import com.example.beomshop.product.dto.ProductCreateRequest;
 import com.example.beomshop.product.exception.ProductIdNotFoundException;
+import com.example.beomshop.product.exception.ProductNameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.example.beomshop.product.exception.ProductExceptionMessage.PRODUCT_ID_LOOKUP_FAILED;
+import static com.example.beomshop.product.exception.ProductExceptionMessage.PRODUCT_NAME_LOOKUP_FAILED;
 
 @Service
 public class ProductService {
@@ -45,7 +48,12 @@ public class ProductService {
                 .orElseThrow(() -> new ProductIdNotFoundException(PRODUCT_ID_LOOKUP_FAILED));
     }
 
-//    public List<Product> findByCategory(Category category) {
-//        return productRepository.findByCategory(category);
-//    }
+    public Product findByName(String productName) {
+        return productRepository.findByName(productName)
+                .orElseThrow(() -> new ProductNameNotFoundException(PRODUCT_NAME_LOOKUP_FAILED));
+    }
+
+    public List<Product> findByCategory(Category category) {
+        return productRepository.findByCategory(category);
+    }
 }

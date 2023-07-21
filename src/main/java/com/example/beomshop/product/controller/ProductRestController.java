@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -42,5 +43,18 @@ public class ProductRestController {
     public ResponseEntity<Product> findById(@PathVariable UUID productId) {
         Product product = productService.findById(productId);
         return ResponseEntity.ok(product);
+    }
+
+    @GetMapping("/{productName}")
+    public ResponseEntity<Product> findById(@PathVariable String productName) {
+        Product product = productService.findByName(productName);
+        return ResponseEntity.ok(product);
+    }
+
+    @GetMapping("/products")
+    public List<Product> productList(@RequestParam Optional<Category> category) {
+      return category
+        .map(productService::findByCategory)
+        .orElse(productService.findAll());
     }
 }
