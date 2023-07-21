@@ -2,14 +2,14 @@ package com.example.beomshop.product.dto;
 
 import com.example.beomshop.product.domain.Category;
 
-public class CreateProductRequest {
+public class ProductCreateRequest {
     private String productName;
     private Category category;
     private long price;
     private int stock;
     private String description;
 
-    public CreateProductRequest(String productName, Category category, long price, int stock, String description) {
+    public ProductCreateRequest(String productName, Category category, long price, int stock, String description) {
         this.productName = productName;
         this.category = category;
         this.price = price;

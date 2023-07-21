@@ -64,17 +64,25 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public Optional<Product> findById(UUID productId) {
-        return Optional.empty();
+        return jdbcTemplate.query("SELECT * FROM products WHERE product_id = UUID_TO_BIN(:productId)",
+                Collections.singletonMap("productId", uuidToBytes(productId)), productRowMapper).stream()
+                .findFirst();
     }
 
     @Override
     public Optional<Product> findByName(String productName) {
-        return Optional.empty();
+        return jdbcTemplate.query("SELECT * FROM products WHERE product_name = :productName",
+                Collections.singletonMap("productName", productName), productRowMapper).stream()
+                .findFirst();
     }
 
     @Override
     public List<Product> findByCategory(Category category) {
-        return null;
+        return jdbcTemplate.query(
+                        "SELECT * FROM products WHERE category = :category",
+                        Collections.singletonMap("category", category.toString()),
+                        productRowMapper
+                );
     }
 
     @Override
