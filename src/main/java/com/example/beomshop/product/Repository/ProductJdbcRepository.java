@@ -28,7 +28,7 @@ public class ProductJdbcRepository implements ProductRepository {
 
     private Map<String, Object> toParamMap(Product product) {
         return Map.of(
-                "productId", uuidToBytes(product.getProductId()),
+                "productId", product.getProductId().toString(),
                 "productName", product.getProductName(),
                 "category", product.getCategory().toString(),
                 "price", product.getPrice(),
@@ -43,14 +43,9 @@ public class ProductJdbcRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> findAll() {
-        return null;
-    }
-
-    @Override
     public Product insert(Product product) {
-        jdbcTemplate.update("INSERT INTO products(product_id, product_name, category, price, stock, description, created_at, updated_at)" +
-              " VALUES (UUID_TO_BIN(:productId), :productName, :category, :price, :stock, :description, :createdAt, :updatedAt)", toParamMap(product));
+        jdbcTemplate.update("INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at)" +
+              " VALUES (:productId, :productName, :category, :price, :description, :createdAt, :updatedAt)", toParamMap(product));
 
         return product;
     }
@@ -62,9 +57,14 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public Optional<Product> findById(UUID productId) {
-        return jdbcTemplate.query("SELECT * FROM products WHERE product_id = UUID_TO_BIN(:productId)",
-                Collections.singletonMap("productId", uuidToBytes(productId)), productRowMapper).stream()
+        return jdbcTemplate.query("SELECT * FROM products WHERE product_id = :productId",
+                Collections.singletonMap("productId", productId), productRowMapper).stream()
                 .findFirst();
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return jdbcTemplate.query("SELECT * FROM products", productRowMapper);
     }
 
     @Override

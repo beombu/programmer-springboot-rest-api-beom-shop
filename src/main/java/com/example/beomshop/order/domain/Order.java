@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class Order {
     @NotNull
-    private final UUID orderId;
+    private UUID orderId;
     @NotNull
     private OrderStatus orderStatus;
     @NotNull
@@ -18,7 +18,6 @@ public class Order {
     private LocalDateTime updatedAt;
 
     public Order(UUID orderId, OrderStatus orderStatus, List<OrderItem> orderItems, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        validateOrderList(orderItems);
         this.orderId = orderId;
         this.orderStatus = orderStatus;
         this.orderItems = orderItems;
@@ -44,11 +43,5 @@ public class Order {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    private void validateOrderList(List<OrderItem> productList) {
-        if (productList.size() == 0) {
-            throw new IllegalArgumentException("최소 한개의 주문을 담으세요");
-        }
     }
 }

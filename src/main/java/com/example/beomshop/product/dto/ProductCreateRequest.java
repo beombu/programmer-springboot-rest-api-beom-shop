@@ -6,14 +6,12 @@ public class ProductCreateRequest {
     private String productName;
     private Category category;
     private long price;
-    private int stock;
     private String description;
 
-    public ProductCreateRequest(String productName, Category category, long price, int stock, String description) {
+    public ProductCreateRequest(String productName, Category category, long price, String description) {
         this.productName = productName;
         this.category = category;
         this.price = price;
-        this.stock = stock;
         this.description = description;
     }
 
@@ -27,10 +25,6 @@ public class ProductCreateRequest {
 
     public long getPrice() {
         return price;
-    }
-
-    public int getStock() {
-        return stock;
     }
 
     public String getDescription() {

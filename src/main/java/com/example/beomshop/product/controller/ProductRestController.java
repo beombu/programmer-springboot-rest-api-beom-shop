@@ -50,14 +50,14 @@ public class ProductRestController {
         return ResponseEntity.ok(product);
     }
 
-    @GetMapping("/{productName}")
+    @GetMapping("/name/{productName}")
     public ResponseEntity<Product> findById(@PathVariable String productName) {
         Product product = productService.findByName(productName);
 
         return ResponseEntity.ok(product);
     }
 
-    @GetMapping("/products")
+    @GetMapping("/product/category")
     public ResponseEntity<List<Product>> productList(@RequestParam Optional<Category> category) {
         List<Product> products = category
                 .map(productService::findByCategory)

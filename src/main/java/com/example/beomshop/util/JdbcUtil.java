@@ -11,13 +11,6 @@ public class JdbcUtil {
       return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
-    public static byte[] uuidToBytes(UUID uuid) {
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-        bb.putLong(uuid.getMostSignificantBits());
-        bb.putLong(uuid.getMostSignificantBits());
-        return bb.array();
-    }
-
     public static LocalDateTime toLocalDateTime(Timestamp timestamp) {
       return timestamp != null ? timestamp.toLocalDateTime() : null;
     }
