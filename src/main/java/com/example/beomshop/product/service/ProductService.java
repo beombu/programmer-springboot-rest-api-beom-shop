@@ -31,10 +31,10 @@ public class ProductService {
 
     private Product createProduct(ProductCreateRequest productCreateRequest) {
         return new Product(
-                productCreateRequest.getProductName(),
-                productCreateRequest.getCategory(),
-                productCreateRequest.getPrice(),
-                productCreateRequest.getDescription()
+                productCreateRequest.productName(),
+                productCreateRequest.category(),
+                productCreateRequest.price(),
+                productCreateRequest.description()
         );
     }
 

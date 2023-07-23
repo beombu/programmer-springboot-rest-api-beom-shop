@@ -30,7 +30,7 @@ public class ProductRestController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductCreateRequest productCreateRequest) {
+    public ResponseEntity<Product> createProduct(@RequestBody ProductCreateRequest productCreateRequest) {
         Product saved = productService.save(productCreateRequest);
 
         return ResponseEntity.ok(saved);
@@ -43,7 +43,7 @@ public class ProductRestController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/id/{productId}")
     public ResponseEntity<Product> findById(@PathVariable UUID productId) {
         Product product = productService.findById(productId);
 
@@ -51,14 +51,14 @@ public class ProductRestController {
     }
 
     @GetMapping("/name/{productName}")
-    public ResponseEntity<Product> findById(@PathVariable String productName) {
+    public ResponseEntity<Product> findByName(@PathVariable String productName) {
         Product product = productService.findByName(productName);
 
         return ResponseEntity.ok(product);
     }
 
-    @GetMapping("/product/category")
-    public ResponseEntity<List<Product>> productList(@RequestParam Optional<Category> category) {
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Product>> productList(@PathVariable Optional<Category> category) {
         List<Product> products = category
                 .map(productService::findByCategory)
                 .orElse(productService.findAll());
